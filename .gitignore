@@ -1,0 +1,13 @@
+# Environment variables
+.env
+*/.env
+**/.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*__pycache__*
+
+# Node modules
+node_modules/

@@ -7,6 +7,7 @@ import os
 from dotenv import load_dotenv
 from datetime import timedelta
 import logging
+from style_profile import style_bp
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -45,10 +46,10 @@ from auth import auth_bp
 
 # Add mongo to auth blueprint
 auth_bp.mongo = mongo
-
+style_bp.mongo = mongo
 # Register blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
-
+app.register_blueprint(style_bp, url_prefix='/api/style')
 # Test route
 @app.route('/api/test', methods=['GET'])
 def test_route():

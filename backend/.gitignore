@@ -1,0 +1,8 @@
+# Common files to ignore
+venv/
+__pycache__/
+*.pyc
+.env
+node_modules/
+.vscode/
+.idea/

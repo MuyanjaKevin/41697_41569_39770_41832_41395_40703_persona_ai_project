@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from datetime import timedelta
 import logging
 from style_profile import style_bp
+from product import product_bp
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG)
@@ -47,9 +48,11 @@ from auth import auth_bp
 # Add mongo to auth blueprint
 auth_bp.mongo = mongo
 style_bp.mongo = mongo
+product_bp.mongo = mongo
 # Register blueprints
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
 app.register_blueprint(style_bp, url_prefix='/api/style')
+app.register_blueprint(product_bp, url_prefix='/api/products')
 # Test route
 @app.route('/api/test', methods=['GET'])
 def test_route():
@@ -129,6 +132,29 @@ def get_products():
         })
     except Exception as e:
         logger.error(f"Error fetching products: {e}")
+        return jsonify({"error": str(e)}), 500
+    
+# In app.py - modify the seed_products function
+@app.route('/api/seed-products', methods=['GET'])
+def seed_products():
+    try:
+        # Check if products already exist
+        existing_count = mongo.db.products.count_documents({})
+        
+        if existing_count > 0:
+            return jsonify({
+                "message": f"Database already has {existing_count} products. No new products added."
+            })
+            
+        from seed_data import generate_test_products
+        products = generate_test_products()
+        result = mongo.db.products.insert_many(products)
+        
+        return jsonify({
+            "message": f"Created {len(result.inserted_ids)} test products",
+            "product_ids": [str(id) for id in result.inserted_ids]
+        })
+    except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # Start the server

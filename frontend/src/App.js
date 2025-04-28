@@ -18,7 +18,7 @@ import ProfilePage from './Pages/ProfilePage';
 
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Add these new imports
+import ShopPage from './Pages/ShopPage';
 
 import StyleQuestionnaire from './components/StyleQuestionnaire';
 
@@ -44,6 +44,7 @@ function App() {
                 {/* New routes for style profile feature */}
 <Route path="/style-questionnaire" element={<StyleQuestionnaire />} />
 <Route path="/style-results" element={<StyleResultsPage />} />
+<Route path="/shop" element={<ShopPage />} />
 
                 {/* Add more protected routes here */}
 </Route>

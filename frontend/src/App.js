@@ -23,6 +23,7 @@ import ShopPage from './Pages/ShopPage';
 import StyleQuestionnaire from './components/StyleQuestionnaire';
 
 import StyleResultsPage from './Pages/StyleResultsPage';
+import ProductDetailPage from './Pages/ProductDetailPage';
  
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
 <Route path="/style-questionnaire" element={<StyleQuestionnaire />} />
 <Route path="/style-results" element={<StyleResultsPage />} />
 <Route path="/shop" element={<ShopPage />} />
+<Route path="/product/:productId" element={<ProductDetailPage />} />
 
                 {/* Add more protected routes here */}
 </Route>

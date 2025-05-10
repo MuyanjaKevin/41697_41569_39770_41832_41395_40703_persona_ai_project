@@ -211,3 +211,81 @@ def get_recommendations():
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+# Get product by ID with style match information
+@product_bp.route('/<product_id>/with-style-match', methods=['GET'])
+@jwt_required()
+def get_product_with_style_match(product_id):
+    try:
+        # Get current user ID from JWT token
+        current_user_id = get_jwt_identity()
+        
+        # Find the product
+        product = product_bp.mongo.db.products.find_one({'_id': ObjectId(product_id)})
+        
+        if not product:
+            return jsonify({'error': 'Product not found'}), 404
+        
+        # Format product for response
+        product['_id'] = str(product['_id'])
+        if 'created_at' in product:
+            product['created_at'] = product['created_at'].isoformat()
+        if 'updated_at' in product:
+            product['updated_at'] = product['updated_at'].isoformat()
+        
+        # Get user's style profile if available
+        user = product_bp.mongo.db.users.find_one({
+            '_id': ObjectId(current_user_id)
+        })
+        
+        style_match = {
+            'has_style_profile': False,
+            'match_score': 0,
+            'match_reasons': []
+        }
+        
+        if user and user.get('style_profile'):
+            # Get the style profile
+            style_profile = product_bp.mongo.db.style_profiles.find_one({
+                '_id': user['style_profile']
+            })
+            
+            if style_profile and style_profile.get('preferences'):
+                style_match['has_style_profile'] = True
+                preferences = style_profile['preferences']
+                
+                # Calculate match score and reasons
+                match_score = 0
+                match_reasons = []
+                
+                # Example matching logic - customize based on your preferences and product attributes
+                # Match by category
+                if 'occasion' in preferences and product.get('categories'):
+                    if preferences['occasion'] == 'formal' and any(c in ['formal', 'business'] for c in product['categories']):
+                        match_score += 25
+                        match_reasons.append('Matches your formal style preference')
+                    elif preferences['occasion'] == 'casual' and any(c in ['casual', 'everyday'] for c in product['categories']):
+                        match_score += 25
+                        match_reasons.append('Perfect for your casual style')
+                
+                # Match by color
+                if 'color_palette' in preferences and product.get('attributes', {}).get('color'):
+                    color = product['attributes']['color']
+                    if preferences['color_palette'] == 'neutrals' and color in ['black', 'white', 'gray', 'beige']:
+                        match_score += 25
+                        match_reasons.append('Fits your neutral color palette')
+                    elif preferences['color_palette'] == 'earth_tones' and color in ['brown', 'olive', 'rust']:
+                        match_score += 25
+                        match_reasons.append('Complements your earth tone preference')
+                
+                # Set final match info
+                style_match['match_score'] = min(match_score, 100)  # Cap at 100%
+                style_match['match_reasons'] = match_reasons
+        
+        return jsonify({
+            'product': product,
+            'style_match': style_match
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500

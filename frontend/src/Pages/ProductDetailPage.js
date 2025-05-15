@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 function ProductDetailPage() {
   const { productId } = useParams();
   const { token, user } = useAuth();
+  const { addToCart } = useCart();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [styleMatch, setStyleMatch] = useState(null);
@@ -53,7 +55,8 @@ function ProductDetailPage() {
   };
   
   const handleAddToCart = () => {
-    // TODO: Implement actual cart functionality
+    addToCart(product, quantity);
+    // Optional: show a success message
     alert(`Added ${quantity} of ${product.name} to cart`);
   };
   

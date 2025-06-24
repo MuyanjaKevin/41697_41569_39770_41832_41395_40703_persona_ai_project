@@ -22,8 +22,8 @@ function ProductDetailPage() {
         
         // Determine which endpoint to use based on authentication
         const endpoint = token 
-          ? `http://localhost:5000/api/products/${productId}/with-style-match`
-          : `http://localhost:5000/api/products/${productId}`;
+          ? `http://localhost:5001/api/products/${productId}/with-style-match`
+          : `http://localhost:5001/api/products/${productId}`;
         
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
         

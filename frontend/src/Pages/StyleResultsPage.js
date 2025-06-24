@@ -38,7 +38,7 @@ function StyleResultsPage() {
 
         try {
 
-          const response = await fetch('http://localhost:5000/api/style/profile', {
+          const response = await fetch('http://localhost:5001/api/style/profile', {
 
             headers: {
 

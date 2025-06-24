@@ -126,25 +126,7 @@ function ShopPage() {
   };
   
   // Generate pagination buttons
-  const renderPagination = () => {
-    const pages = [];
-    
-    for (let i = 1; i <= totalPages; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          className={`px-3 py-1 rounded ${
-            currentPage === i 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
-        >
-          {i}
-        </button>
-      );
-    }
-    
+
     return (
       <div className="flex justify-center mt-8 space-x-2">
         <button

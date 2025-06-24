@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           
           // Get user profile
-          const response = await axios.get('http://localhost:5000/api/auth/profile');
+          const response = await axios.get('http://localhost:5001/api/auth/profile');
           setUser(response.data.user);
         } catch (error) {
           console.error('Auth check failed:', error);
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
   // Register function
   const register = async (userData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', userData);
+      const response = await axios.post('http://localhost:5001/api/auth/register', userData);
       return { success: true, data: response.data };
     } catch (error) {
       return { 
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (credentials) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
+      const response = await axios.post('http://localhost:5001/api/auth/login', credentials);
       const { token, user_id, username, email } = response.data;
       
       // Save token to local storage

@@ -73,7 +73,7 @@ function ShopPage() {
         navigate(`/shop?${params.toString()}`, { replace: true });
         
         // Fetch products
-        const response = await axios.get(`http://localhost:5000/api/products/list?${params.toString()}`);
+        const response = await axios.get(`http://localhost:5001/api/products/list?${params.toString()}`);
         
         setProducts(response.data.products);
         setTotalPages(response.data.total_pages);
@@ -92,7 +92,7 @@ function ShopPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products/categories');
+        const response = await axios.get('http://localhost:5001/api/products/categories');
         setCategories(response.data.categories);
       } catch (err) {
         console.error('Failed to fetch categories:', err);

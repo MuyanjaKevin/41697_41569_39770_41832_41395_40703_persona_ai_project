@@ -12,6 +12,22 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+   // Logout function
+  const logout = () => {
+    // Remove token from local storage
+    localStorage.removeItem('token');
+    
+    // Remove token from state and axios headers
+    setToken(null);
+    delete axios.defaults.headers.common['Authorization'];
+    
+    // Clear user state
+    setUser(null);
+    
+    // Redirect to login page
+    navigate('/login');
+  };
+
   // Check if user is authenticated on initial load
   useEffect(() => {
     const checkAuth = async () => {
@@ -85,21 +101,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout function
-  const logout = () => {
-    // Remove token from local storage
-    localStorage.removeItem('token');
-    
-    // Remove token from state and axios headers
-    setToken(null);
-    delete axios.defaults.headers.common['Authorization'];
-    
-    // Clear user state
-    setUser(null);
-    
-    // Redirect to login page
-    navigate('/login');
-  };
+ 
 
   return (
     <AuthContext.Provider value={{ user, token, loading, register, login, logout }}>

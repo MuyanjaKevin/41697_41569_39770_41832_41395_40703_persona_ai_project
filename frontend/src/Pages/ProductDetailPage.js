@@ -6,7 +6,7 @@ import { useCart } from '../context/CartContext'; // Add this import at the top
 
 function ProductDetailPage() {
   const { productId } = useParams();
-  const { token, user } = useAuth();
+  const { token} = useAuth();
   const navigate = useNavigate();
   const { addToCart } = useCart(); // Add this near other hook calls
   const [product, setProduct] = useState(null);

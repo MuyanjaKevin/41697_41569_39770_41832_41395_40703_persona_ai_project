@@ -117,7 +117,7 @@ function StyleQuestionnaire() {
       };
       // Send preferences to backend
       const response = await axios.post(
-        'http://localhost:5000/api/style/profile',
+        'http://localhost:5001/api/style/profile',
         { preferences: answers },
         config
       );
